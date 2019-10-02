@@ -1,5 +1,5 @@
 # Koa
-## 1
+## 1 koa
 ### 1.1 安装  
 ` nvm install 7`
 ` npm i koa`
@@ -22,7 +22,7 @@ get请求的方式有两种,一种是从request中获得,一种是直接从上�
 1 通过request.query和request.querystring  
 2 上下文获得 ctx.query / ctx.query.string 
 ## 3 POST请求 
-原生node.js需要通过解析上下文context请求对象req来获取如图 
+原生node.js需要通过解析上下文context请求对象req来获取
 步骤: 
 1. 解析上下文ctx中的原生node.js对象req
 2. 将post表单数据解析成query string 字符串(eg : user=jack&age=18)
@@ -46,17 +46,20 @@ app.use(bodyParser())
 路由是一个有URI(路径)和一个特定的HTTP方法(GET/POST)组成的,设计到应用如何响应客户端对某个网站节点的访问.eg 登录页面/注册页面 根据请求url地址的不同,加载不同的页面实现不同的功能  
 ### 4.1.1
 安装   
-`yarn add i --save koa-router` 
+`yarn add i --save koa-router`  
 引入   
-`const Router = require ('koa-router')`  
+`const Router = require ('koa-router')`    
 使用   
-`let router = new Router()`
+`let router = new Router()`  
 ### 4.1.2 模块化  
 实际项目中,跟前端类似,把业务路由模块化,一般在appAPI下  
 如图 
+* user.js 模块
+<img src="https://github.com/FanYaoFan/Koa/blob/master/img/koa-routerModules1.png"></img>
 注意:  `let router = new Router()`  
 `router.use('/user',user.routes())`  
 使用导入的路由模块
+<img src="https://github.com/FanYaoFan/Koa/blob/master/img/koa-router-index.png"></img>
 ### 4.1.3 koa-cors 
 安装 
 `yarn add i koa-cors` 
@@ -80,6 +83,7 @@ koa-cors 是为了解决跨域问题
 * httpOnly: 是否只用http请求中获得  
 * overwrite:是否允许重写  
 如图 
+<img src="https://github.com/FanYaoFan/Koa/blob/master/img/cookie.png"></img>
 ### 5.2 Koa2模板  
 #### 5.2.1 ejs模板
 安装 
@@ -95,4 +99,5 @@ koa-cors 是为了解决跨域问题
 `render( app,, {root : path.join(__dirnamek, 'view'), //视图的位置  `
 `extname : '.art', 后缀名 })`  
 ## 6 koa-static 静态资源中间件  
-安装 `yarn add i --save koa-static`  
+安装 `yarn add i --save koa-static` 
+<img srx="https://github.com/FanYaoFan/Koa/blob/master/img/static.png"></img>
