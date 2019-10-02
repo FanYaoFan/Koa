@@ -1,9 +1,9 @@
 # Koa
 ## 1 koa
 ### 1.1 安装  
-` nvm install 7`
-` npm i koa`
-` node my-koa-app.js`  
+` nvm install 7`  
+` npm i koa`  
+` node my-koa-app.js`   
 同样可以 `yarn add i koa2` 
 ### 1.2 使用  
 `const Koa = require('koa')`  
@@ -59,6 +59,7 @@ app.use(bodyParser())
 注意:  `let router = new Router()`  
 `router.use('/user',user.routes())`  
 使用导入的路由模块
+* index.js 界面
 <img src="https://github.com/FanYaoFan/Koa/blob/master/img/koa-router-index.png"></img>
 ### 4.1.3 koa-cors 
 安装 
@@ -100,4 +101,4 @@ koa-cors 是为了解决跨域问题
 `extname : '.art', 后缀名 })`  
 ## 6 koa-static 静态资源中间件  
 安装 `yarn add i --save koa-static` 
-<img srx="https://github.com/FanYaoFan/Koa/blob/master/img/static.png"></img>
+<img src="https://github.com/FanYaoFan/Koa/blob/master/img/static.png"></img>
