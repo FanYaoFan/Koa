@@ -3,11 +3,12 @@
 ### 1.1安装:  
 安装在自定义盘符,eg 安装在D/Mongodb   
 Mongodb目录下有Server目录 server/4.2 => 有bin & data & log  
+目录结构
 1. Server  
-  1. 4.2  
-    1. bin
-    2. data -> db
-    3. log  
+   1. 4.2  
+     1. bin
+     2. data -> db
+     3. log  
 ### 1.2 启动  
 启动命令行  
 cd bin目录下 输入 mongod -dbpath  `"D:\MongoDB\Server\4.2\data\db" `
