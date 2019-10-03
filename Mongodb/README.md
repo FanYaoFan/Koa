@@ -38,6 +38,31 @@ cd bin目录下 输入 mongod -dbpath  `"D:\MongoDB\Server\4.2\data\db" `
 `db.createCollection("user")`
 9. 删除数据库 
 `db.dropDatabase()`  
+10. 保存
+`db.集合.save(document)`  
+11. limit 
+用于读取指定数量的文档,
+`db.集合.find().limit(number)`    
+number表示要获取文档的条数,如果没有指定参数则显示集合中的所有文档  
+12. skip  
+用于跳过指定数量的文档    
+`db.集合.find().skip(2)` 
+如果文档_id已经存在则修改,如果文档_id不存在则添加 
+13. 投影  
+在查询到的返回结果中,只选择必要的字段,而不是选择一个文档的整个字段  
+一个文档有5个字段,需要显示的只有3个,投影其中3个字段即可  
+`db.集合名称.find( {}, {字段名称: 1,...})`  
+对于需要显示的字段,设置为1即可,不设置就不显示(id列默认显示,不显示需要设置为0)  
+eg `db.stu.find( {},{name:1,gender:1})`  
+`db.stu.find({},{_id:0,name:1,gender:1})`  
+14. 统计个数 count  
+用于统计结果集中文档条数  
+`db.集合.find({条件}).count()`  
+15. 排序 sort()  
+`db.集合.find().sort({字段: 1/-1})`  
+1为升序,-1为降序
+16. 消除重复  
+`db.集合名称.distinct('去重字段',{条件})`  
 ## 3 JS与mongodb 
 ### 3.1 批量增加
 实际开发中,一般是先声明一个数组,然后循环产生数据push到这个数组中,在db.集合.inert插入数据.性能远远大于每次循环插入数据 如图  
@@ -100,3 +125,73 @@ printjson：表示以json对象的格式输出到控制台
 3. 大于($gt):英文全称greater-than
 4. 大于等于($gte):英文全称greater-than-equal
 5. 不等于($ne):英文全称not-equal 
+## 6 数据类型 
+* Object ID : 文档ID  
+* String: 字符串,最常用,必须是有效的UTF-8  
+* Boolean: 存储一个布尔值 true/false  
+* Integer: 整数可以是32/64,取决于服务器  
+* Double: 存储浮点值  
+* Arrays:数组或列表,多个值存储到一个键  
+* Object:用于嵌入式文档,即一个值为一个文档  
+* Null: 存储null值  
+* Timestamp:时间戳  
+* Date: 存储当前日期或时间的UNIX时间格式  
+Object  
+每个文档都有一个属性,为_id,保证每个文档的唯一性  
+可以自己设置_id插入文档;如果没有提供,那么MongoDB会为每个文档提供一个独特的_id,类型为ObjectID.  
+组成   
+object是一个12字节的十六进制数,
+1. 前四个字节为当前时间戳,
+2. 接下来3个字节的机器ID,
+3. 接下来的2个字节中MongoDB的服务进程id,
+4. 最后3个简单的增利值
+## 7 高级操作  aggregate 
+聚合(aggregate)主要用于计算数据,类似sql中的sum(),avg()  
+`db.集合.aggregate([{管道: {表达式}])`  
+管道在unix/linux中一般用于当前命令的输出结果作为下一个命令的输入  
+ajx|grep mongo  
+### 7.1 常用管道  
+1. $group: 将集合中的文档分组,可用于统计结果
+` db.stu.aggreate( [ $group : {_id : "name"}])`  
+2. $match: 过滤数据,只输出符合条件的文档
+`db.stu.aggregate([ {$match : {age : {$gt : 20 }}}])`   
+//=> 查询年龄大于20
+3. $project: 修改输入文档的结构,eg 重命名,增加,删除字段,创建计算结果
+`db.stu.aggregate([{$project : {_id : 0,name: 1,age : 1}}])`  
+查询学生的姓名,年龄  
+4. $sort: 将文档排序后输出
+5. $limit: 限制聚合管道返回的文档数
+6. $skip: 跳过指定数量的文档,并返回余下的文档
+7. $unwind : 将数组类型的字段进行拆分
+### 7.1.1 $group 
+将集合中的文档分组,可用于统计结果 
+_id表示分组的依据,使用某个字段的格式为$字段
+### 7.2 表达式  
+$sum : 计算总和 $sum1同count表示计数
+$avg : 计算平均值
+$min : 获取最小值  
+$max : 获取最大值
+$push : 在结果文档中插入值到一个数组中
+$first : 根据资源文档的排序获取第一个文档数据 
+$last : 根据资源文档的排序获取最后一个文档数据  
+## 8 索引  
+1. 查询数据超过表数据量30%时，不要使用索引字段查询。实际证明会比不使用索引更慢，因为它大量检索了索引表和我们原表。
+2. 数字索引，要比字符串索引快的多，在百万级甚至千万级数据量面前，使用数字索引是个明确的选择
+3. 把你经常查询的数据做成一个内嵌数据（对象型的数据），然后集体进行索引  
+4. 查看状态 `db.randomInfo.status()`  
+### 8.1 建立索引  
+`db.randomInfo.ensureIndex( {username : 1})`
+查看现有索引  
+`db.randomInfo.getIndexes()`
+### 8.2 复合索引  
+指定索引查询(hint)  
+数字的索引要比字符串的索引快
+### 8.3 删除索引 
+当索引性能不佳或起不到作用时,我们需要删除索引
+`db.randomInfo.dropoIndex('ranNum0_1)`索引的唯一ID  
+### 8.4 全文索引  
+有些时候需要在大篇幅的文章中搜索关键词，比如我写的文章每篇都在万字以上，这时候你想搜索关键字是非常不容易的  
+1. $text:表示要在全文索引中查东西。  
+2. $search:后边跟查找的内容  
+`db.info.find( {$text: {$search : "查找的内容"})`  
+## 9 admin  
