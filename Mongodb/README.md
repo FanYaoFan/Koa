@@ -5,7 +5,7 @@
 Mongodb目录下有Server目录 server/4.2 => 有bin & data & log  
 目录结构
 1. Server  
-   1. 4.2  
+  1. 4.2  
      1. bin
      2. data -> db
      3. log  
