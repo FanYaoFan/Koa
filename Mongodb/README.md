@@ -178,11 +178,14 @@ $last : 根据资源文档的排序获取最后一个文档数据
 1. 查询数据超过表数据量30%时，不要使用索引字段查询。实际证明会比不使用索引更慢，因为它大量检索了索引表和我们原表。
 2. 数字索引，要比字符串索引快的多，在百万级甚至千万级数据量面前，使用数字索引是个明确的选择
 3. 把你经常查询的数据做成一个内嵌数据（对象型的数据），然后集体进行索引  
-4. 查看状态 `db.randomInfo.status()`  
+4. 查看状态 `db.集合.status()`  
 ### 8.1 建立索引  
-`db.randomInfo.ensureIndex( {username : 1})`
+`db.集合.ensureIndex( {username : 1})`   
+1表示升序 -1表示降序
 查看现有索引  
-`db.randomInfo.getIndexes()`
+`db.集合.getIndexes()` 
+建立唯一索引,实现唯一的约束功能  
+db.集合,ensureIndex({"name" : 1},{"uique" : true})
 ### 8.2 复合索引  
 指定索引查询(hint)  
 数字的索引要比字符串的索引快
@@ -195,3 +198,68 @@ $last : 根据资源文档的排序获取最后一个文档数据
 2. $search:后边跟查找的内容  
 `db.info.find( {$text: {$search : "查找的内容"})`  
 ## 9 admin  
+为了更安全的访问mongodb,需要访问者提供用户名和密码,于是需要在mongodb中创建用户.  
+采用了角色-用户-数据库的安全管理方式  
+创建管理员   
+use admin 
+```javascript
+db.createUser({user: 'admin',pws : '123',roles : [{role : 'root', db :'admi'}]})```
+### 9.1 角色  
+__常用系统角色__   
+1. root 只在admin数据中可用,超级账号,超级权限  
+2. Read 允许用户读取指定的数据库  
+3. readWrite:允许用户读写指定数据库  
+use admin -> show collections 默认是只有一个集合 (system.version).创建用户可以用db.createUser   
+`db.ceateUser({ user :"fan", pwd : "123456", cunstomData Z:{ name : 'big', email : '123456@qq.com', age : 18 }})`  
+__内置角色__  
+1.	数据库用户角色：read、readWrite；
+2.	数据库管理角色：dbAdmin、dbOwner、userAdmin;
+3.	集群管理角色：clusterAdmin、clusterManager、clusterMonitor、hostManage；
+4.	备份恢复角色：backup、restore；
+5.	所有数据库角色：readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、dbAdminAnyDatabase
+6.	超级用户角色：root
+7.	内部角色：__system
+### 9.2 用户操作  
+`db.system.users.find()` //查找用户  
+`db.system.users.remove({user:"fan"}) `//删除用户  
+## 10 建权 
+重启MongoDB服务器，然后设置必须使用建权登录。
+### 10.1  
+`mongod --auth`  
+启动后，用户登录只能用用户名和密码进行登录，原来的mongo形式链接已经不起作用了。相应的用户权限也对应妥当。实际项目中我们启动服务器必须使用建权形式  
+登录  
+如果在配置用户之后，用户想登录，可以使用mongo的形式，不过需要配置用户名密码：
+`mongom  -u fan -p 123456 127.0.0.1:27017/admin`   
+### 10.2 自启动服务 
+如图
+
+net start MongoDB 启动服务
+然后  D:\MongoDB\Server\4.2\data\db> mongo  直接进入mongodb 不用再输老长的命令了   
+## 11 管理 : 备份和还原
+### 11.1 数据备份  
+ ` mongodump`
+*     --host 127.0.0.1  
+*     --port 27017  
+*     --out D:/databack/backup  
+*     --collection myCollections  
+*     --db test  
+*     --username username  
+*     --password password  
+*  比如现在我们备份所有MongoDB里的库到D盘的databack文件夹下，
+*  就可以把命令写成这样
+* ` mongodump --host 127.0.0.1 --port 27017 --out D:/databack/`
+### 11.2 数据恢复  
+ `mongorestore`
+* 数据恢复  
+* mongorestore  
+      --host 127.0.0.1  
+*     --port 27017  
+*     --username username   
+*     --password password    
+*     <path to the backup>    
+* 比如我们现在不小心删除了一个collections的数据，要进行恢复。比如删除了students集合。   
+* eg: db.students.drop() 不小心删除   
+* 数据恢复 :  mongorestore --host 127.0.0.1 --port 27017 D:/databack/
+
+
+
