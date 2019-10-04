@@ -114,3 +114,5 @@ koa-cors 是为了解决跨域问题
 ## 7 koa-static 静态资源中间件  
 安装 `yarn add i --save koa-static` 
 <img src="https://github.com/FanYaoFan/Koa/blob/master/img/static.png"></img>
+## 8 Mongodb 
+[Mongodb](https://github.com/FanYaoFan/Koa/tree/master/Mongodb)  
