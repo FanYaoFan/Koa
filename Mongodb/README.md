@@ -1,4 +1,18 @@
 # Mongodb 
+## 目录 
+## [1 安装与启动](#1-安装与启动)
+## [2 基本命令](#2-基本命令)
+## [3 JS与mongodb](#3-js与mongodb)
+## [4 findAndModify](#4-findAndModify)  
+## [5 不等修饰符](#5-不等修饰符)
+## [6 数据类型](#6-数据类型)
+## [7 高级操作 aggregate](#7-高级操作-aggregate)
+## [8 索引](#8-索引) 
+## [9 admin](#9-admin)
+## [10 建权](#10-建权)
+## [11 管理:备份和还原](#11-管理--备份和还原)
+***
+___
 ## 1 安装与启动
 ### 1.1安装:  
 安装在自定义盘符,eg 安装在D/Mongodb   
@@ -261,10 +275,10 @@ net start MongoDB 启动服务
 *     --port 27017  
 *     --username username   
 *     --password password    
-*     <path to the backup>    
-* 比如我们现在不小心删除了一个collections的数据，要进行恢复。比如删除了students集合。   
-* eg: db.students.drop() 不小心删除   
-* 数据恢复 :  mongorestore --host 127.0.0.1 --port 27017 D:/databack/
+*     <path to the backup>      
+比如我们现在不小心删除了一个collections的数据，要进行恢复。比如删除了students集合。     
+ eg: db.students.drop() 不小心删除     
+数据恢复 :  mongorestore --host 127.0.0.1 --port 27017 D:/databack/  
 
 
 
