@@ -5,6 +5,9 @@
 ## [3 POST请求](#3-post请求)
 ## [4 Koa-router](#4-koa-router)
 ## [5 cookie](#5-cookie)
+## [6 koa2模板](#6-koa2模板)
+## [7 koa-static 静态资源中间件](#7-koa-static-静态资源中间件)
+## [8 Mongodb](https://github.com/FanYaoFan/Koa/tree/master/Mongodb)  
 
 ***
 ___
