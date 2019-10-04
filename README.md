@@ -1,4 +1,13 @@
 # Koa
+## 目录  
+## [1 koa](#1-koa)
+## [2 GET请求](#2-get-请求)
+## [3 POST请求](#3-post请求)
+## [4 Koa-router](#4-koa-router)
+## [5 cookie](#5-cookie)
+
+***
+___
 ## 1 koa
 ### 1.1 安装  
 ` nvm install 7`  
@@ -85,8 +94,8 @@ koa-cors 是为了解决跨域问题
 * overwrite:是否允许重写  
 如图 
 <img src="https://github.com/FanYaoFan/Koa/blob/master/img/cookie.png"></img>
-### 5.2 Koa2模板  
-#### 5.2.1 ejs模板
+## 6 Koa2模板  
+### 6.1 ejs模板
 安装 
 ` cnpm i --save koa-views`  
 安装ejs模板引擎  
@@ -94,11 +103,11 @@ koa-cors 是为了解决跨域问题
 一般新建一个view的文件夹,并在它下面新建index.ejs文件  
 `const views = require('koa-views')`  
 `app.use(views(__dirname,, {extension: 'ejs'}))`  
-#### art-template  
+### 6.2 art-template  
 `yarn add i --save art-template`   
 `yarn add i --save koa-art-template`  
 `render( app,, {root : path.join(__dirnamek, 'view'), //视图的位置  `
 `extname : '.art', 后缀名 })`  
-## 6 koa-static 静态资源中间件  
+## 7 koa-static 静态资源中间件  
 安装 `yarn add i --save koa-static` 
 <img src="https://github.com/FanYaoFan/Koa/blob/master/img/static.png"></img>
