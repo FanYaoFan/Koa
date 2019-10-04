@@ -34,21 +34,21 @@ cd bin目录下 输入 mongod -dbpath  `"D:\MongoDB\Server\4.2\data\db" `
 7. 删除整个user集合
 `db.user.drop() `   
 <img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/remove.png"></img>   
-8. 创建集合
+8. 创建集合  
 `db.createCollection("user")`
-9. 删除数据库 
+9. 删除数据库     
 `db.dropDatabase()`  
-10. 保存
+10. 保存  
 `db.集合.save(document)`  
-11. limit 
+11. limit  
 用于读取指定数量的文档,
 `db.集合.find().limit(number)`    
 number表示要获取文档的条数,如果没有指定参数则显示集合中的所有文档  
-12. skip  
+12. skip    
 用于跳过指定数量的文档    
 `db.集合.find().skip(2)` 
 如果文档_id已经存在则修改,如果文档_id不存在则添加 
-13. 投影  
+13. 投影   
 在查询到的返回结果中,只选择必要的字段,而不是选择一个文档的整个字段  
 一个文档有5个字段,需要显示的只有3个,投影其中3个字段即可  
 `db.集合名称.find( {}, {字段名称: 1,...})`  
@@ -58,36 +58,41 @@ eg `db.stu.find( {},{name:1,gender:1})`
 14. 统计个数 count  
 用于统计结果集中文档条数  
 `db.集合.find({条件}).count()`  
-15. 排序 sort()  
+15. 排序 sort()    
 `db.集合.find().sort({字段: 1/-1})`  
 1为升序,-1为降序
-16. 消除重复  
+16. 消除重复    
 `db.集合名称.distinct('去重字段',{条件})`  
 ## 3 JS与mongodb 
 ### 3.1 批量增加
-实际开发中,一般是先声明一个数组,然后循环产生数据push到这个数组中,在db.集合.inert插入数据.性能远远大于每次循环插入数据 如图  
+实际开发中,一般是先声明一个数组,然后循环产生数据push到这个数组中,在db.集合.inert插入数据.性能远远大于每次循环插入数据 
+<img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/for-insert.png"></img>  
 ### 3.2 update修改器  
 #### 3.2.1 $set&$unset  
-$set用来指定一个键值(key),进行修改  如图 set.png
-$unset 指定key值进行删除  
+$set用来指定一个键值(key),进行修改      
+<img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/set.png"></img>  
+$unset 指定key值进行删除    
 #### 3.2.2 $inc 对数字进行计算  
-如图 inc
+<img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/inc.png"></img>  
 #### 3.2.3 multi 
 其值又true和false两个值,true代表全部修改,false代表只修改一个(默认值)  
 想为每一个数据添加一个属性, `db.集合.update( {}, {$set : {hobby : []}})`这样写只添加一个  
 `db.集合.update( {}, {$set : {hobby : []}}, {multi : true})` 这样每个数据就都添加了hobby这条数据
 如图 multi  
+<img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/multi.png"></img>
 #### 3.2.4 upsert选项
 upsert是在找不到这个值的情况下,直接插入这条数据
 ### 3.3 update数组修改器
 #### 3.3.1 $push 
-$push的功能是追加数组中的值，但我们也经常用它操作内嵌稳文档，就是{}对象型的值。  
-`db.集合.update({name:'3熊'},{$push:{"hobby":'draw'}})`
+$push的功能是追加数组中的值，但我们也经常用它操作内嵌稳文档，就是{}对象型的值。     
+`db.集合.update({name:'3熊'},{$push:{"hobby":'draw'}})`  
+<img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/push.png"></img>
 #### 3.3.2 $pop
 $pop只删除一次,并不是删除所有数组的值,而且它有两个选项 +1和-1
 1. +1 从数组末端删除
 2. -1 从数组开端删除  
-`db.集合.update({name:'3熊'},{$pop:{"hobby": 1}}`
+`db.集合.update({name:'3熊'},{$pop:{"hobby": 1}}`  
+<img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/pop.png"></img>
 #### 3.3.3 $ne & $addToSet
 $ne   
 检查一个值是否存在,如果不存在再执行操作.他的爱好没有打游戏就添加打游戏这条数据
@@ -153,6 +158,7 @@ ajx|grep mongo
 ### 7.1 常用管道  
 1. $group: 将集合中的文档分组,可用于统计结果
 ` db.stu.aggreate( [ $group : {_id : "name"}])`  
+<img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/group.png"></img>  
 2. $match: 过滤数据,只输出符合条件的文档
 `db.stu.aggregate([ {$match : {age : {$gt : 20 }}}])`   
 //=> 查询年龄大于20
@@ -201,9 +207,8 @@ db.集合,ensureIndex({"name" : 1},{"uique" : true})
 为了更安全的访问mongodb,需要访问者提供用户名和密码,于是需要在mongodb中创建用户.  
 采用了角色-用户-数据库的安全管理方式  
 创建管理员   
-use admin 
-```javascript
-db.createUser({user: 'admin',pws : '123',roles : [{role : 'root', db :'admi'}]})```
+use admin   
+`db.createUser({user: 'admin',pws : '123',roles : [{role : 'root', db :'admi'}]})`
 ### 9.1 角色  
 __常用系统角色__   
 1. root 只在admin数据中可用,超级账号,超级权限  
