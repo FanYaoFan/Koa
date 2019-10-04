@@ -29,9 +29,9 @@ cd bin目录下 输入 mongod -dbpath  `"D:\MongoDB\Server\4.2\data\db" `
 5. 更新数据  
 `db.user.updata({})`
 <img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/dbuser.png"></img>  
-6. 删除数据
+6. 删除数据  
 `db.user.remove({})`
-7. 删除整个user集合
+7. 删除整个user集合  
 `db.user.drop() `   
 <img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/remove.png"></img>   
 8. 创建集合  
@@ -66,7 +66,7 @@ eg `db.stu.find( {},{name:1,gender:1})`
 ## 3 JS与mongodb 
 ### 3.1 批量增加
 实际开发中,一般是先声明一个数组,然后循环产生数据push到这个数组中,在db.集合.inert插入数据.性能远远大于每次循环插入数据 
-<img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/for-insert.png"></img>  
+<img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/for_insert.png"></img>  
 ### 3.2 update修改器  
 #### 3.2.1 $set&$unset  
 $set用来指定一个键值(key),进行修改      
@@ -75,13 +75,13 @@ $unset 指定key值进行删除
 #### 3.2.2 $inc 对数字进行计算  
 <img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/inc.png"></img>  
 #### 3.2.3 multi 
-其值又true和false两个值,true代表全部修改,false代表只修改一个(默认值)  
-想为每一个数据添加一个属性, `db.集合.update( {}, {$set : {hobby : []}})`这样写只添加一个  
-`db.集合.update( {}, {$set : {hobby : []}}, {multi : true})` 这样每个数据就都添加了hobby这条数据
-如图 multi  
+其值又true和false两个值,true代表全部修改,false代表只修改一个(默认值)    
+想为每一个数据添加一个属性, `db.集合.update( {}, {$set : {hobby : []}})`这样写只添加一个    
+`db.集合.update( {}, {$set : {hobby : []}}, {multi : true})`   
+这样每个数据就都添加了hobby这条数据  
 <img src="https://github.com/FanYaoFan/Koa/blob/master/Mongodb/img/advance/multi.png"></img>
 #### 3.2.4 upsert选项
-upsert是在找不到这个值的情况下,直接插入这条数据
+upsert是在找不到这个值的情况下,直接插入这条数据  
 ### 3.3 update数组修改器
 #### 3.3.1 $push 
 $push的功能是追加数组中的值，但我们也经常用它操作内嵌稳文档，就是{}对象型的值。     
@@ -102,11 +102,11 @@ $addToSet
  `db.集合.update({num:0,"hobby":{$addToSet:{"hobby":'Game'}})`  
 #### 3.3.4 $each
 它可以传入一个数组，一次增加多个值进去，相当于批量操作，性能同样比循环操作要好很多，这个是需要我们注意的，工作中也要先组合成数组，然后用批量的形式进行操作。  
-比如一次性给 2熊这个人 添加 四个爱好 [ 唱,跳,rap,打篮球]  
-`var hobbyList = [ "sing", "Dance" ,"rap", "basketball"]`  
-`db.集合.updata ( {"name": "2熊"}, {$addToSet : {hobby : [$each : hobbyList]}})`
+比如一次性给 2熊这个人 添加 四个爱好 [ 唱,跳,rap,打篮球]    
+`var hobbyList = [ "sing", "Dance" ,"rap", "basketball"]`    
+`db.集合.updata ( {"name": "2熊"}, {$addToSet : {hobby : [$each : hobbyList]}})`  
 ## 4 findAndModify  
-在操作数据库时，对数据的修改是需要有足够的安全措施的，其实在实际工作中，我们用db.collections.update的时候不多，在修改时我们都会用findAndModify(修改)，它可以给我们返回来一些必要的参数，让我们对修改多了很多控制力，控制力的加强也就是对安全的强化能力加强了。   
+在操作数据库时，对数据的修改是需要有足够的安全措施的，其实在实际工作中，我们用db.collections.update的时候不多，在修改时我们都会用findAndModify(修改)，它可以给我们返回来一些必要的参数，让我们对修改多了很多控制力，控制力的加强也就是对安全的强化能力加强了。     
 ### 4.1 常用属性    
 •	query：需要查询的条件/文档  
 •	sort: 进行排序  
