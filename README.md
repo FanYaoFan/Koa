@@ -3,7 +3,7 @@
 ## [1 koa](#1-koa)
 ## [2 GET请求](#2-get-请求)
 ## [3 POST请求](#3-post请求)
-## [4 koa-router](#4-koa-router)
+## [4 koa-router](#4-koa-router-1)
 ## [5 cookie](#5-cookie)
 ## [6 koa2模板](#6-koa2模板)
 ## [7 koa-static 静态资源中间件](#7-koa-static-静态资源中间件)
